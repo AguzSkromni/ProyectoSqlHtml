@@ -4,20 +4,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login como Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-    <form action="Scripts/logadmin.php" method="POST" id="conadmin">
-        Password de Admin: <input name="Pass" type="password" id="pass">
-        <input value="Conectar" type="submit" id="conectar">
-    </form>
+    <header class="cover">
+        <div class="contenedor contenido-header">
+            <a href="index.html"><img src="ImagenesUsarse/logoUnitec.png" alt="logoUnitec" class="imagen-logo"></a>
+            <h1 class="h1class">Proyecto Bases de datos con PHP</h1>
+        </div>
+        <!-- Termina Contenedor contenido-header -->
+    </header>
+    <!-- Termina Header -->
 
-    <form action="index.html" method="POST" id="Forma_Regreso">
-        <input type="submit" form="Forma_Regreso" formaction="index.html" value="Regresar">
-    </form>
+    <div class="contenedor-bodylogin">
+        <img src="ImagenesUsarse/candado.png" alt="">
+        <fieldset>
+            <legend>Login </legend>
+            <form action="Scripts/logadmin.php" method="POST" id="conadmin">
+                <label for="pass"> Contraseña:</label>
+                <input name="pass" type="password" id="pass" form="conadmin" placeholder="Ej:'12345'">
+                <div class="centrar-boton">
+                    <input value="CONECTAR" name="conectar" type="submit" id="conectar">
+                    <!-- Boton De Conectar -->
+                </div>
+            </form>
+            <!-- Termina Forms de loggin -->
+        </fieldset>
+    </div>
+    <!-- Termina Contenedor -->
 
+
+    <div class="regresar">
+        <form action="index.html" method="POST" id="Forma_Regreso">
+            <input type="submit" form="Forma_Regreso" formaction="index.html" value="Regresar">
+        </form>
+        <!-- Termina boton de Regresar -->
+    </div>
 </body>
 
 </html>
