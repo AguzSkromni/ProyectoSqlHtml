@@ -72,6 +72,12 @@ img {
 
 .contenedor-body {
     padding-left: 8rem;
+    padding-top: 3rem;
+}
+
+.olestilos {
+    padding-top: 6rem;
+    font-weight: 500;
 }
 
 .contenedor-body h3 {
@@ -171,4 +177,8 @@ legend {
 .regresar {
     padding-left: 5rem;
     padding-top: 6rem;
+}
+
+.imagenUser {
+    max-width: 33rem;
 }
