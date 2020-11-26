@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pantalla de Login</title>
+    <title>Usuario</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300&display=swap" rel="stylesheet">
     
     <style type="text/css">
@@ -496,16 +496,17 @@ img {
     font-size: 900;
     text-decoration: underline;
 }
+
 .centrar{
-    padding-top: 3rem;
-    padding-left: 2rem;
+    padding-top: 7rem;
+    padding-left: 5rem;
 }
 
-.centrar-tabla{
-    padding: 5rem 0rem 5rem 10rem;
+.centrar p{
+    font-size: 3rem;
 }
+    </style>
 
-</style>
 
 </head>
 
@@ -513,68 +514,48 @@ img {
     <header class="cover">
         <div class="contenedor contenido-header">
            <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
-            <h1 class="h1class">Listado de Usuarios</h1>
+            <h1 class="h1class">Baja Usuario</h1>
         </div>
         <!-- Termina Contenedor contenido-header -->
     </header>
+
     <!-- Inicia Codigo PHP -->
 
-    <div class="centrar-tabla">
-        <?php
-        $pass="";
-        $servidor="localhost";
-        $usuario="root";
-        $basedatos="sys";
-        $coneccion=mysqli_connect($servidor,$usuario,$pass,$basedatos);
+
+    <?php
+        //Definiendo Parametros  idnuevousuario  contraseña
+    require 'login.php';
+
+        $usuarieliminar= $_POST['idusuarioeliminar'];
+
+        //Creando la conexion a la base de datos
+        //$coneccion = mysqli_connect($servidor, $usuario, $pass, $basedatos);
+
+        //Checando la Coneccion
         if(!$coneccion)
         {
-            echo("Error en la conexion: ".mysqli_connect_error());
+            
+            echo("Error en la coneccion:" .mysqli_connect_error());
         }
         else
-        {
-            $sql="select mysql.user.Host,mysql.user.User from mysql.user";
-            $resultado=mysqli_query($coneccion,$sql);
-            if (!$resultado)
-            {
-                echo "No existe ningún usuario en el usuario"."<br>";
-            }
-            else
-            {
-                echo '<table width="50%" border="1">';
-                echo ' <tr>';
-                echo '      <th scope="col">Numero</th>';
-                echo '      <th scope="col">Host</th>';
-                echo '      <th scope="col">User</th>';
-                echo ' </tr>';
-                $num_users=mysqli_num_rows($resultado);
-                $num_col=mysqli_num_fields($resultado);
-                echo "El número de usuarios dentro del servidor es de ".$num_users."<br>";
-                for ($i=0; $i<$num_users;$i++)
-                {
-                    $base=mysqli_fetch_array($resultado);
-                    echo '<tr>';
-                    echo '  <td>'.$i.'</td>';
-                    for($j=0;$j<$num_col;$j++)
-                    {
-                    echo '<td>'.$base[$j].'</td>'; 
-                    }
-                    echo '</tr>';
-                }
-                echo '</table>';
-            }
+        { 
+            $sql = "DROP USER '$usuarieliminar'@'localhost';";
+
+            $query = mysqli_query($coneccion, $sql);
+            echo   '<div class="centrar"><p>Se ha eliminado correctamente el Usuario: '; print $usuarieliminar; echo'</p></div>';
+
+
             mysqli_close($coneccion);
         }
-
+        
         echo '<div class="centrar">';
-        echo '<form action="../index.html" method="post">';
-        echo '<input type="submit" formaction="../index.html" value="Regresar">';
+        echo '<form action="../loginadmin.html" method="post">';
+        echo '<input type="submit" formaction="../BajaUsuarios.html" value="Regresar">';
         echo '</form>';
         echo '</div>';
+    ?>
 
-        ?>
-    </div>
-
-<!-- Termina PHP -->
+    
 </body>
 
 </html>
