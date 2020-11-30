@@ -3,7 +3,7 @@
     $pass = "";
     $servidor="localhost";
     $usuario="root";
-    $basedatos="basedatos";
+    $basedatos="sys";
 
     //Creando la conexion a la base de datos
     $coneccion = mysqli_connect($servidor, $usuario, $pass, $basedatos);
