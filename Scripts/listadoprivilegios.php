@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pantalla de Login</title>
+    <title>Listado de Privilegiados</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300&display=swap" rel="stylesheet">
     
     <style type="text/css">
@@ -513,7 +513,7 @@ img {
     <header class="cover">
         <div class="contenedor contenido-header">
         <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
-            <h1 class="h1class">Listado de Usuarios</h1>
+            <h1 class="h1class">Listado de Usuarios Privilegiados</h1>
         </div>
         <!-- Termina Contenedor contenido-header -->
     </header>
@@ -524,7 +524,7 @@ img {
         $pass="";
         $servidor="localhost";
         $usuario="root";
-        $basedatos="sakila";
+        $basedatos="mysql";
         $coneccion=mysqli_connect($servidor,$usuario,$pass,$basedatos);
         if(!$coneccion)
         {
@@ -532,7 +532,7 @@ img {
         }
         else
         {
-            $sql="select mysql.user.Host,mysql.user.User from mysql.user";
+            $sql="select mysql.user.Host,mysql.user.User,mysql.user.Alter_priv,mysql.user.Grant_priv,mysql.user.Drop_priv,mysql.user.Index_priv,mysql.user.Insert_priv,mysql.user.Select_priv,mysql.user.Update_priv from mysql.user";
             $resultado=mysqli_query($coneccion,$sql);
             if (!$resultado)
             {
@@ -545,10 +545,22 @@ img {
                 echo '      <th scope="col">Numero</th>';
                 echo '      <th scope="col">Host</th>';
                 echo '      <th scope="col">User</th>';
+                
+                echo '      <th scope="col">ALTER</th>';
+                echo '      <th scope="col">GRANT</th>';
+                echo '      <th scope="col">DROP</th>';
+                echo '      <th scope="col">INDEX</th>';
+                echo '      <th scope="col">INSERT</th>';
+                echo '      <th scope="col">SELECT</th>';
+                echo '      <th scope="col">UPDATE</th>';
+
                 echo ' </tr>';
+                
                 $num_users=mysqli_num_rows($resultado);
                 $num_col=mysqli_num_fields($resultado);
-                echo "El número de usuarios dentro del servidor es de ".$num_users."<br>";
+            
+                
+                echo "LISTADO DE USUARIOS PRIVILEGIADOS<br>";
                 for ($i=0; $i<$num_users;$i++)
                 {
                     $base=mysqli_fetch_array($resultado);
@@ -556,8 +568,10 @@ img {
                     echo '  <td>'.$i.'</td>';
                     for($j=0;$j<$num_col;$j++)
                     {
-                    echo '<td>'.$base[$j].'</td>'; 
+                    echo '<td>'.$base[$j].'</td>';
+                    
                     }
+                   
                     echo '</tr>';
                 }
                 echo '</table>';
