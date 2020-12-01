@@ -523,13 +523,11 @@ img {
 
 
     <?php
-        //Definiendo Parametros  idnuevousuario  contraseña
     require 'login.php';
 
         $usuarieliminar= $_POST['idusuarioeliminar'];
 
         //Creando la conexion a la base de datos
-        //$coneccion = mysqli_connect($servidor, $usuario, $pass, $basedatos);
 
         //Checando la Coneccion
         if(!$coneccion)
@@ -539,13 +537,23 @@ img {
         }
         else
         { 
-            $sql = "DROP USER '$usuarieliminar'@'localhost';";
 
-            $query = mysqli_query($coneccion, $sql);
-            echo   '<div class="centrar"><p>Se ha eliminado correctamente el Usuario: '; print $usuarieliminar; echo'</p></div>';
+            $total = "select mysql.user.Host,mysql.user.User from mysql.user WHERE User='$usuarieliminar'";
+            if(!$total){
+                echo '<div class="centrar"><p>No Existe usuario para eliminar con el nombre: '; print $usuarieliminar; echo'</p></div>';
+            }
+            else
+            {
+
+                //Eliminando usuario :)
+                $sql = "DROP USER '$usuarieliminar'@'localhost';";
+
+                $query = mysqli_query($coneccion, $sql);
+                echo   '<div class="centrar"><p>Se ha eliminado correctamente el Usuario: '; print $usuarieliminar; echo'</p></div>';
 
 
-            mysqli_close($coneccion);
+                mysqli_close($coneccion);
+            }
         }
         
         echo '<div class="centrar">';

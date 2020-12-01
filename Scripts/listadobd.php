@@ -535,7 +535,7 @@ table, td, th {
     $pass="";
     $servidor="localhost";
     $usuario="root";
-    $basedatos="sakila";
+    $basedatos="sys";
     $coneccion=mysqli_connect($servidor,$usuario,$pass,$basedatos);
 
     if(!$coneccion)
