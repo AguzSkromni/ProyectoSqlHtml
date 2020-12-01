@@ -3,17 +3,17 @@
  $servidor ="localhost";
  $usuario ="root";
  $bandera=false;
- $base = $_POST["s_bd"];
- $id = $_POST["m_userid"];
- $all = $_POST["todos"];
- $alter = $_POST["alter"];
- $create = $_POST["create"];
- $drop = $_POST["drop"];
- $grant = $_POST["grant"];
- $index =$_POST["index"];
- $insert = $_POST["insert"];
- $select = $_POST["select"];
- $update = $_POST["update"];
+ $base = $_POST['s_bd'];
+ $id = $_POST['m_userid'];
+ $all = $_POST['todos'];
+ $alter = $_POST['alter'];
+ $create = $_POST['create'];
+ $drop = $_POST['drop'];
+ $grant = $_POST['grant'];
+ $index =$_POST['index'];
+ $insert = $_POST['insert'];
+ $select = $_POST['select'];
+ $update = $_POST['update'];
  echo'<h1>Privilegios a usuarios</h1>';
  echo $id.'<br>';   
  echo $base.'<br>';
@@ -33,7 +33,7 @@
      {
          if($bandera)
          {
-             $Privilegios=$Privilegios.'.';
+             $Privilegios=$Privilegios.',';
          }
          $Privilegios=$Privilegios.$create;
          $bandera=true;
@@ -97,20 +97,20 @@
  $coneccion=mysqli_connect($servidor,$usuario,$pass); // checar si esta bien
 if (!$coneccion)
 {
-    else("Error de operación:".mysqli_connect_error());
+    else("Error de conección:".mysqli_connect_error());
 }
 else
 {
-    $sql="grand".$privilegios."on".$base."."to".$id."@localhost",";
+    $sql='grand'.$privilegios."on".$base."."to".$id."@localhost",";
     echo$sql.'<br>';
     $resultado=mysqli_query($coneccion,$sql);
     if ($resultado)
     {
-        echo"erroe de la operación:".mysqli_error($coneccion).'<br>';
+        echo"error de la operación:".mysqli_error($coneccion).'<br>';
     }
     else
     {
-        echo " Operación de los privilegios fueron añadidos de manera correcta."."<br>";
+        echo"Operación exitosa los privilegios fueron añadidos de manera correcta."."<br>";
     }
     mysqli_close($coneccion),
 }
