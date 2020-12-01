@@ -512,7 +512,7 @@ img {
 <body>
     <header class="cover">
         <div class="contenedor contenido-header">
-        <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
+           <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
             <h1 class="h1class">Listado de Usuarios</h1>
         </div>
         <!-- Termina Contenedor contenido-header -->
@@ -524,7 +524,7 @@ img {
         $pass="";
         $servidor="localhost";
         $usuario="root";
-        $basedatos="sakila";
+        $basedatos="sys";
         $coneccion=mysqli_connect($servidor,$usuario,$pass,$basedatos);
         if(!$coneccion)
         {

@@ -514,53 +514,56 @@ img {
     <header class="cover">
         <div class="contenedor contenido-header">
            <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
-            <h1 class="h1class">Alta Usuario</h1>
+            <h1 class="h1class">Baja Usuario</h1>
         </div>
         <!-- Termina Contenedor contenido-header -->
     </header>
 
     <!-- Inicia Codigo PHP -->
 
-<?php
-    //Definiendo Parametros  idnuevousuario  contraseña
-require 'login.php';
 
-    $passnueva = $_POST['contraseña'];
-    $usuarionuevo= $_POST['idnuevousuario'];
+    <?php
+    require 'login.php';
 
+        $usuarieliminar= $_POST['idusuarioeliminar'];
 
-    //Checando la Coneccion
-    if(!$coneccion)
-    {
-        
-        echo("Error en la coneccion:" .mysqli_connect_error());
-    }
-    else
-    { 
-        $total = "select mysql.user.Host,mysql.user.User from mysql.user WHERE User='$usuarionuevo'";
-        if($total){
-            echo '<div class="centrar"><p>Ya existe usuario creado con el nombre: '; print $usuarionuevo; echo'</p></div>';
+        //Creando la conexion a la base de datos
+
+        //Checando la Coneccion
+        if(!$coneccion)
+        {
+            
+            echo("Error en la coneccion:" .mysqli_connect_error());
         }
         else
-        {
+        { 
 
-            //Creando usuario nuevo en localhost identificado con passnueva
-            $sql = "CREATE USER '$usuarionuevo'@'localhost' IDENTIFIED BY '$passnueva';";
+            $total = "select mysql.user.Host,mysql.user.User from mysql.user WHERE User='$usuarieliminar'";
+            if(!$total){
+                echo '<div class="centrar"><p>No Existe usuario para eliminar con el nombre: '; print $usuarieliminar; echo'</p></div>';
+            }
+            else
+            {
 
-            $query = mysqli_query($coneccion, $sql);
-            echo   '<div class="centrar"><p>Creado correctamente el Usuario: '; print $usuarionuevo; echo'</p></div>';
+                //Eliminando usuario :)
+                $sql = "DROP USER '$usuarieliminar'@'localhost';";
 
-            mysqli_close($coneccion);
+                $query = mysqli_query($coneccion, $sql);
+                echo   '<div class="centrar"><p>Se ha eliminado correctamente el Usuario: '; print $usuarieliminar; echo'</p></div>';
+
+
+                mysqli_close($coneccion);
+            }
         }
-    }
-    
-    echo '<div class="centrar">';
-    echo '<form action="../loginadmin.html" method="post">';
-    echo '<input type="submit" formaction="../AltaUsuarios.html" value="Regresar">';
-    echo '</form>';
-    echo '</div>';
-?>
+        
+        echo '<div class="centrar">';
+        echo '<form action="../loginadmin.html" method="post">';
+        echo '<input type="submit" formaction="../BajaUsuarios.html" value="Regresar">';
+        echo '</form>';
+        echo '</div>';
+    ?>
 
+    
 </body>
 
 </html>

@@ -4,32 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login como Admin</title>
+    <title>Alta usuarios</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
+
     <header class="cover">
         <div class="contenedor contenido-header">
             <a href="index.html"><img src="ImagenesUsarse/logoUnitec.png" alt="logoUnitec" class="imagen-logo"></a>
-            <h1 class="h1class">Login como Administrador</h1>
+            <h1 class="h1class">Alta de usuarios</h1>
         </div>
         <!-- Termina Contenedor contenido-header -->
     </header>
     <!-- Termina Header -->
 
     <div class="contenedor-bodylogin">
-        <img src="ImagenesUsarse/candado.png" alt="Candado">
+        <img src="ImagenesUsarse/UsuarioNuevo.jpg" class="imagenUser" alt="UsuarioNuevo">
         <fieldset>
-            <legend>Login </legend>
-            <form action="Scripts/logadmin.php" method="POST" id="conadmin">
+            <legend>Alta Usuarios </legend>
+            <form action="Scripts/AltaUsuarios.php" method="POST" id="usuarionuevo">
 
-                <label for="pass"> Contraseña:</label>
-                <input name="pass" type="password" id="pass" form="conadmin" placeholder="Ej:'12345'">
+                <label for="idnuevousuario">Id Nuevo User</label>
+                <input type="text" placeholder="Id del Nuevo Usuario" name="idnuevousuario" form="usuarionuevo">
+
+                <label for="contraseña">Contraseña</label>
+                <input type="password" placeholder="Contraseña" name="contraseña" form="usuarionuevo">
+
                 <div class="centrar-boton">
-                    <input value="CONECTAR" name="conectar" type="submit" id="conectar">
+                    <input type="submit" value="Registrar" name="enviar">
                     <!-- Boton De Conectar -->
                 </div>
             </form>
@@ -38,10 +43,9 @@
     </div>
     <!-- Termina Contenedor -->
 
-
     <div class="regresar">
         <form action="index.html" method="POST" id="Forma_Regreso">
-            <input type="submit" form="Forma_Regreso" formaction="index.html" value="Regresar">
+            <input type="submit" form="Forma_Regreso" formaction="AdministradorUsuarios.html" value="Regresar">
         </form>
         <!-- Termina boton de Regresar -->
     </div>
