@@ -537,13 +537,21 @@ require 'login.php';
     }
     else
     { 
-        //$sql = "INSERT INTO mysql.user VALUES ('$usuarionuevo', '$passnueva')";
-        $sql = "CREATE USER '$usuarionuevo'@'localhost' IDENTIFIED BY '$passnueva';";
+        $total = "select mysql.user.Host,mysql.user.User from mysql.user WHERE User='$usuarionuevo'";
+        if($total){
+            echo '<div class="centrar"><p>Ya existe usuario creado con el nombre: '; print $usuarionuevo; echo'</p></div>';
+        }
+        else
+        {
 
-        $query = mysqli_query($coneccion, $sql);
-        echo   '<div class="centrar"><p>Creado correctamente el Usuario: '; print $usuarionuevo; echo'</p></div>';
+            //Creando usuario nuevo en localhost identificado con passnueva
+            $sql = "CREATE USER '$usuarionuevo'@'localhost' IDENTIFIED BY '$passnueva';";
 
-        mysqli_close($coneccion);
+            $query = mysqli_query($coneccion, $sql);
+            echo   '<div class="centrar"><p>Creado correctamente el Usuario: '; print $usuarionuevo; echo'</p></div>';
+
+            mysqli_close($coneccion);
+        }
     }
     
     echo '<div class="centrar">';
