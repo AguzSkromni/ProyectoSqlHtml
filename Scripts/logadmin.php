@@ -514,7 +514,7 @@ img {
     <header class="cover">
         <div class="contenedor contenido-header">
            <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
-            <h1 class="h1class">Login como Administrador</h1>
+            <h1 class="h1class">Proyecto Bases de datos con PHP</h1>
         </div>
         <!-- Termina Contenedor contenido-header -->
     </header>
@@ -525,7 +525,7 @@ img {
     $pass = $_POST['pass'];
     $servidor="localhost";
     $usuario="root";
-    $basedatos="sys";
+    $basedatos="sakila";
 
     //Creando la conexion a la base de datos
     $coneccion = mysqli_connect($servidor, $usuario, $pass, $basedatos);
