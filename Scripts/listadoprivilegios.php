@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pantalla de Login</title>
+    <title>Listado de Privilegiados</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300&display=swap" rel="stylesheet">
     
     <style type="text/css">
@@ -497,91 +497,97 @@ img {
     text-decoration: underline;
 }
 .centrar{
-    padding-top: 2rem;
-    padding-left: 5rem;
+    padding-top: 3rem;
+    padding-left: 2rem;
 }
 
 .centrar-tabla{
     padding: 5rem 0rem 5rem 10rem;
 }
 
-.centrar p{
-    font-size: 3rem;
-}
-
-table, td, th {
-    border: 1px solid black;
-    padding: 0.5rem;
-}
-    </style>
-
-
+</style>
 
 </head>
 
 <body>
     <header class="cover">
         <div class="contenedor contenido-header">
-<<<<<<< Updated upstream
-           <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
-            <h1 class="h1class">Proyecto Bases de datos con PHP</h1>
-=======
         <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
-            <h1 class="h1class">Listado de Bases de Datos</h1>
->>>>>>> Stashed changes
+            <h1 class="h1class">Listado de Usuarios Privilegiados</h1>
         </div>
         <!-- Termina Contenedor contenido-header -->
     </header>
-
     <!-- Inicia Codigo PHP -->
-    
-    <?php
 
-    $pass="";
-    $servidor="localhost";
-    $usuario="root";
-    $basedatos="sakila";
-    $coneccion=mysqli_connect($servidor,$usuario,$pass,$basedatos);
-
-    if(!$coneccion)
-    {
-        echo("Error en la coneccion: ".mysqli_connect_error());
-    }
-    else
-    {
-        $resultado=mysqli_query($coneccion,"Show Databases");
-        if(!$resultado)
+    <div class="centrar-tabla">
+        <?php
+        $pass="";
+        $servidor="localhost";
+        $usuario="root";
+        $basedatos="mysql";
+        $coneccion=mysqli_connect($servidor,$usuario,$pass,$basedatos);
+        if(!$coneccion)
         {
-            echo "No existe ninguna Base de Datos en el servidor"."";
+            echo("Error en la conexion: ".mysqli_connect_error());
         }
         else
         {
-            $num_bd=mysqli_num_rows($resultado);
-            $num_col=mysqli_num_fields($resultado);
-                echo '<div class="centrar-tabla">';
-                echo "<table><tr><th>En numero de BD en el servidor es: </th> <td>".$num_bd."</td></tr>";
-                echo "<tr><th>Numero de columnas del Query: </th> <td>".$num_col."</td></tr>";
-
-            for($i=0; $i<$num_bd;$i++)
+            $sql="select mysql.user.Host,mysql.user.User,mysql.user.Alter_priv,mysql.user.Grant_priv,mysql.user.Drop_priv,mysql.user.Index_priv,mysql.user.Insert_priv,mysql.user.Select_priv,mysql.user.Update_priv from mysql.user";
+            $resultado=mysqli_query($coneccion,$sql);
+            if (!$resultado)
             {
-                $base=mysqli_fetch_array($resultado);
-                for($j=0; $j<$num_col;$j++)
-                {
-                    echo "<tr><th>Nombre de la BD:  </th> <td>".$base[$j]."</td></tr>";
-                }
-                echo "";
+                echo "No existe ningún usuario en el usuario"."<br>";
             }
-            echo '</table></div>';
-        }
-        mysqli_close($coneccion);
-    }
+            else
+            {
+                echo '<table width="50%" border="1">';
+                echo ' <tr>';
+                echo '      <th scope="col">Numero</th>';
+                echo '      <th scope="col">Host</th>';
+                echo '      <th scope="col">User</th>';
+                
+                echo '      <th scope="col">ALTER</th>';
+                echo '      <th scope="col">GRANT</th>';
+                echo '      <th scope="col">DROP</th>';
+                echo '      <th scope="col">INDEX</th>';
+                echo '      <th scope="col">INSERT</th>';
+                echo '      <th scope="col">SELECT</th>';
+                echo '      <th scope="col">UPDATE</th>';
 
-    echo '<div class="centrar">';
-    echo '<form action="../index.html" method="post">';
-    echo '<input type="submit" formaction="../index.html" value="Regresar">';
-    echo '</form>';
-    echo '</div>';
-?>
+                echo ' </tr>';
+                
+                $num_users=mysqli_num_rows($resultado);
+                $num_col=mysqli_num_fields($resultado);
+            
+                
+                echo "LISTADO DE USUARIOS PRIVILEGIADOS<br>";
+                for ($i=0; $i<$num_users;$i++)
+                {
+                    $base=mysqli_fetch_array($resultado);
+                    echo '<tr>';
+                    echo '  <td>'.$i.'</td>';
+                    for($j=0;$j<$num_col;$j++)
+                    {
+                    echo '<td>'.$base[$j].'</td>';
+                    
+                    }
+                   
+                    echo '</tr>';
+                }
+                echo '</table>';
+            }
+            mysqli_close($coneccion);
+        }
+
+        echo '<div class="centrar">';
+        echo '<form action="../index.html" method="post">';
+        echo '<input type="submit" formaction="../index.html" value="Regresar">';
+        echo '</form>';
+        echo '</div>';
+
+        ?>
+    </div>
+
 <!-- Termina PHP -->
 </body>
 

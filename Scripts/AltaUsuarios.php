@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pantalla de Login</title>
+    <title>Usuario</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300&display=swap" rel="stylesheet">
     
     <style type="text/css">
@@ -496,25 +496,16 @@ img {
     font-size: 900;
     text-decoration: underline;
 }
-.centrar{
-    padding-top: 2rem;
-    padding-left: 5rem;
-}
 
-.centrar-tabla{
-    padding: 5rem 0rem 5rem 10rem;
+.centrar{
+    padding-top: 7rem;
+    padding-left: 5rem;
 }
 
 .centrar p{
     font-size: 3rem;
 }
-
-table, td, th {
-    border: 1px solid black;
-    padding: 0.5rem;
-}
     </style>
-
 
 
 </head>
@@ -522,67 +513,71 @@ table, td, th {
 <body>
     <header class="cover">
         <div class="contenedor contenido-header">
-<<<<<<< Updated upstream
            <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
-            <h1 class="h1class">Proyecto Bases de datos con PHP</h1>
-=======
-        <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
-            <h1 class="h1class">Listado de Bases de Datos</h1>
->>>>>>> Stashed changes
+            <h1 class="h1class">Alta Usuario</h1>
         </div>
         <!-- Termina Contenedor contenido-header -->
     </header>
 
     <!-- Inicia Codigo PHP -->
+
+<?php
+    //Definiendo Parametros  idnuevousuario  contraseña
+require 'login.php';
+
+    $passnueva = $_POST['contraseña'];
+    $usuarionuevo= $_POST['idnuevousuario'];
+
     
-    <?php
-
-    $pass="";
-    $servidor="localhost";
-    $usuario="root";
-    $basedatos="sakila";
-    $coneccion=mysqli_connect($servidor,$usuario,$pass,$basedatos);
-
+    //Checando la Coneccion
     if(!$coneccion)
     {
-        echo("Error en la coneccion: ".mysqli_connect_error());
+        
+        echo("Error en la coneccion:" .mysqli_connect_error());
     }
     else
-    {
-        $resultado=mysqli_query($coneccion,"Show Databases");
-        if(!$resultado)
-        {
-            echo "No existe ninguna Base de Datos en el servidor"."";
-        }
-        else
-        {
-            $num_bd=mysqli_num_rows($resultado);
-            $num_col=mysqli_num_fields($resultado);
-                echo '<div class="centrar-tabla">';
-                echo "<table><tr><th>En numero de BD en el servidor es: </th> <td>".$num_bd."</td></tr>";
-                echo "<tr><th>Numero de columnas del Query: </th> <td>".$num_col."</td></tr>";
+    { 
+        //$sql = "INSERT INTO mysql.user VALUES ('$usuarionuevo', '$passnueva')";
+        $sql = "CREATE USER '$usuarionuevo'@'localhost' IDENTIFIED BY '$passnueva';";
 
-            for($i=0; $i<$num_bd;$i++)
-            {
-                $base=mysqli_fetch_array($resultado);
-                for($j=0; $j<$num_col;$j++)
-                {
-                    echo "<tr><th>Nombre de la BD:  </th> <td>".$base[$j]."</td></tr>";
-                }
-                echo "";
-            }
-            echo '</table></div>';
-        }
+        $query = mysqli_query($coneccion, $sql);
+        echo   '<div class="centrar"><p>Creado correctamente el Usuario: '; print $usuarionuevo; echo'</p></div>';
+
         mysqli_close($coneccion);
     }
-
+    
+    //Verificar existencia de usuarios
+     
+      if(!empty($usuarionuevo)) {
+            comprobar($usuarionuevo);
+      }
+       //COMPROBAR USER Y PASSWORD
+      function comprobar($b) 
+      {
+            $con = mysql_connect('localhost','root', 'root');
+            mysql_select_db('sakila', $con);
+       
+            $sql = mysql_query("SELECT * FROM usuarios WHERE nombre = '".$b."'",$con);
+             
+            $contar = mysql_num_rows($sql);
+             
+            if($contar == 0)
+            {
+                  echo "<span style='font-weight:bold;color:green;'>Disponible.</span>";
+            }
+            else
+            {
+                  echo "<span style='font-weight:bold;color:red;'>El nombre de usuario ya existe.</span>";
+            }
+      }     
+    
     echo '<div class="centrar">';
-    echo '<form action="../index.html" method="post">';
-    echo '<input type="submit" formaction="../index.html" value="Regresar">';
+    echo '<form action="../loginadmin.html" method="post">';
+    echo '<input type="submit" formaction="../AltaUsuarios.html" value="Regresar">';
     echo '</form>';
     echo '</div>';
 ?>
-<!-- Termina PHP -->
+
 </body>
 
 </html>
