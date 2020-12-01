@@ -1,5 +1,5 @@
 <?php
- $pass ="Mlg090911$";
+ $pass ="Mlg0909ll$";
  $servidor ="localhost";
  $usuario ="root";
  $bandera=false;
@@ -14,7 +14,7 @@
  $insert = $_POST['insert'];
  $select = $_POST['select'];
  $update = $_POST['update'];
- echo'<h1>Privilegios a usuarios</h1>';
+ echo'<h1>Privilegios de usuarios</h1>';
  echo $id.'<br>';   
  echo $base.'<br>';
  $Privilegios='';
@@ -102,15 +102,15 @@ if (!$coneccion)
 else
 {
     $sql='grand'.$privilegios."on".$base."."to".$id."@localhost",";
-    echo$sql.'<br>';
+    echo$sql."<br>";
     $resultado=mysqli_query($coneccion,$sql);
-    if ($resultado)
+    if (!$resultado)
     {
         echo"error de la operación:".mysqli_error($coneccion).'<br>';
     }
     else
     {
-        echo"Operación exitosa los privilegios fueron añadidos de manera correcta."."<br>";
+        echo"Operación exitosa los privilegios fueron añadidos"."<br>";
     }
     mysqli_close($coneccion),
 }
