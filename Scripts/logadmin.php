@@ -525,7 +525,7 @@ img {
     $pass = $_POST['pass'];
     $servidor="localhost";
     $usuario="root";
-    $basedatos="sakila";
+    $basedatos="sys";
 
     //Creando la conexion a la base de datos
     $coneccion = mysqli_connect($servidor, $usuario, $pass, $basedatos);
