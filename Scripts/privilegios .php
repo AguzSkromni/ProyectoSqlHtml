@@ -2,119 +2,107 @@
  $pass ="Mlg0909ll$";
  $servidor ="localhost";
  $usuario ="root";
+ $port = "3308";
+ $conexion mysqli_connect($servidor, $usuario, $pass, "", $port);
  $bandera=false;
+
  $base = $_POST['s_bd'];
  $id = $_POST['m_userid'];
  $all = $_POST['todos'];
  $alter = $_POST['alter'];
  $create = $_POST['create'];
- $drop = $_POST['drop'];
+ $drop = $_POST['drop']
  $grant = $_POST['grant'];
  $index =$_POST['index'];
  $insert = $_POST['insert'];
  $select = $_POST['select'];
  $update = $_POST['update'];
- echo'<h1>Privilegios de usuarios</h1>';
- echo $id.'<br>';   
- echo $base.'<br>';
- $Privilegios='';
- if ($all<>'')
- {
+ 
+ $privilegios = '';
+
+ echo "<h1>Privilegios de usuarios</h1>";
+ echo $id."<br>";   
+ echo $base."<br>";
+
+ if (isset($all)) {
      $Privilegios=$all;
+    
+     else if (isset($alter)) {
+        if($bandera) {
+            $privilegios = $privilegios.",";
+             }
+               $Privilegios=$Privilegios.$alter;
+               $bandera=true;
+            }
+    else if (isset($create)) {
+        if($bandera) {
+            $privilegios = $privilegios.",";
+            }
+             $Privilegios=$Privilegios.$create;
+            $bandera=true;
+            }
+    else if (isset($drop)) {
+        if($bandera) {
+            $privilegios = $privilegios.",";
+            }
+            $Privilegios=$Privilegios.$drop;
+            $bandera=true;
+            } 
+    else if (isset($grant)) {
+        if($bandera) {
+            $privilegios = $privilegios.",";
+            }
+            $Privilegios=$Privilegios.$grant;
+            $bandera=true;
+            }
+    else if (isset($index)) {
+        if($bandera) {
+            $privilegios = $privilegios.",";
+            }
+            $Privilegios=$Privilegios.$index;
+            $bandera=true;
+            }
+    else if (isset($insert)) {
+        if($bandera) {
+            $privilegios = $privilegios.",";
+            }
+            $Privilegios=$Privilegios.$insert;
+            $bandera=true;
+            }
+    else if (isset($select)) {
+        if($bandera) {
+            $privilegios = $privilegios.",";
+            }
+            $Privilegios=$Privilegios.$select;
+            $bandera=true;
+            }
+    else if (isset($update)) {
+        if($bandera) {
+            $privilegios = $privilegios.",";
+            }
+            $Privilegios=$Privilegios.$update;
+            $bandera=true;
+            }
  }
- else
- {
-     if($alter<>'')
-     {
-         $Privilegios=$Privilegios.$alter;
-         $bandera=true;
-     }
-     if($create<>'')
-     {
-         if($bandera)
-         {
-             $Privilegios=$Privilegios.',';
-         }
-         $Privilegios=$Privilegios.$create;
-         $bandera=true;
-     }
-     if($drop<>'')
-     {
-         if($bandera)
-         {
-             $Privilegios=$Privilegios.',';
-         }
-         $Privilegios=$Privilegios.$drop;
-         $bandera=true;
-     }
-     if($grant<>'')
-     {
-         if($bandera)
-         {
-             $Privilegios=$Privilegios.',';
-         }
-         $Privilegios=$Privilegios.$grant;
-         $bandera=true;
-     }
-     if($index<>'')
-     {
-         if($bandera)
-         {
-             $Privilegios=$Privilegios.',';
-         }
-         $Privilegios=$Privilegios.$index;
-         $bandera=true;
-     }
-     if($insert<>'')
-     {
-        if($bandera)
-        {
-            $Privilegios=$Privilegios.',';
-        }
-        $Privilegios=$Privilegios.$insert;
-        $bandera=true;
-     }
-     if($select<>'')
-     {
-         if($bandera)
-         {
-             $Privilegios=$Privilegios.',';
-         }
-         $Privilegios=$Privilegios.$select;
-         $bandera=true;
-     } 
-     if($update<>'')
-     {
-         if($bandera)
-         {
-             $Privilegios=$Privilegios.',';
-         }
-         $Privilegios=$Privilegios.$update;
-         $bandera=true;
-     }
- }
- echo $privilegios.'<br>';
- $coneccion=mysqli_connect($servidor,$usuario,$pass); // checar si esta bien
-if (!$coneccion)
-{
-    else("Error de conección:".mysqli_connect_error());
-}
-else
-{
-    $sql='grand'.$privilegios."on".$base."."to".$id."@localhost",";
-    echo$sql."<br>";
-    $resultado=mysqli_query($coneccion,$sql);
+ echo $privilegios."<br>";
+ $conexon;
+
+if (!$conexion){
+    else "Error de conección: ".mysqli_connect_error();
+} else {
+    $sql= ' grand '."$privilegios".' on '."$base". '.* to' ."$id"." @'localhost'";
+    echo $sql."<br>";
+    $resultado=mysqli_query($conexion, $sql);
     if (!$resultado)
     {
-        echo"error de la operación:".mysqli_error($coneccion).'<br>';
-    }
-    else
-    {
+        echo"error de la operación: ".mysqli_error($coneccion)."<br>";
+    } else {
         echo"Operación exitosa los privilegios fueron añadidos"."<br>";
     }
-    mysqli_close($coneccion),
+    mysqli_close($conexion),
 }
-echo'<form action="../admin_user.html"method="post">';
-echo'<input type="sumit"formaction="../admin_user.html"value="regresar">';
-echo'</form>';
 ?>
+
+<form action="../admin_user.html"method="post">;
+    <input type="sumit" formaction="../admin_user.html"value="regresar">';
+</form>;
