@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pantalla de Login</title>
+    <title>Revoke</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300&display=swap" rel="stylesheet">
     
     <style type="text/css">
@@ -496,90 +496,178 @@ img {
     font-size: 900;
     text-decoration: underline;
 }
-.centrar{
-    padding-top: 2rem;
-    padding-left: 5rem;
-}
 
-.centrar-tabla{
-    padding: 5rem 0rem 5rem 10rem;
+.centrar{
+    padding-top: 7rem;
+    padding-left: 5rem;
 }
 
 .centrar p{
     font-size: 3rem;
 }
 
-table, td, th {
-    border: 1px solid black;
-    padding: 0.5rem;
+.contenedor-bodylogin {
+    padding-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+input:not([type="submit"]),
+textarea,
+select{
+    padding: 1rem;
+    display: block;
+    width: 100%;
+    background-color: #e1e1e1;
+    margin-bottom: 2rem;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+label {
+    text-transform: uppercase;
+}
+
+fieldset {
+    padding: 2rem;
+}
+
+legend {
+    font-size: 3rem;
+}
+
+
     </style>
-
-
 
 </head>
 
-<body>
+    <body>
     <header class="cover">
         <div class="contenedor contenido-header">
-
-        <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
-            <h1 class="h1class">Listado de Bases de Datos</h1>
-
+           <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
+            <h1 class="h1class">Privilegios Usuarios</h1>
         </div>
         <!-- Termina Contenedor contenido-header -->
     </header>
 
-    <!-- Inicia Codigo PHP -->
-    
-    <?php
+        <?php
 
-    $pass="";
-    $servidor="localhost";
-    $usuario="root";
-    $basedatos="sakila";
-    $coneccion=mysqli_connect($servidor,$usuario,$pass,$basedatos);
+        $pass = "";
+        $servidor = "localhost";
+        $usuario = "root";
+        $conexion = mysqli_connect($servidor, $usuario, $pass, "");
+        $bandera = false;
 
-    if(!$coneccion)
-    {
-        echo("Error en la coneccion: ".mysqli_connect_error());
-    }
-    else
-    {
-        $resultado=mysqli_query($coneccion,"Show Databases");
-        if(!$resultado)
-        {
-            echo "No existe ninguna Base de Datos en el servidor"."";
-        }
-        else
-        {
-            $num_bd=mysqli_num_rows($resultado);
-            $num_col=mysqli_num_fields($resultado);
-                echo '<div class="centrar-tabla">';
-                echo "<table><tr><th>En numero de BD en el servidor es: </th> <td>".$num_bd."</td></tr>";
-                echo "<tr><th>Numero de columnas del Query: </th> <td>".$num_col."</td></tr>";
+        $base = filter_input(INPUT_POST, 's_bd');
+        $id = filter_input(INPUT_POST, 'm_userid');
+        $all = filter_input(INPUT_POST, 'todos');
+        $alter = filter_input(INPUT_POST, 'alter');
+        $create = filter_input(INPUT_POST, 'create');
+        $drop = filter_input(INPUT_POST, 'drop');
+        $grant = filter_input(INPUT_POST, 'grant');
+        $index = filter_input(INPUT_POST, 'index');
+        $insert = filter_input(INPUT_POST, 'insert');
+        $select = filter_input(INPUT_POST, 'select');
+        $update = filter_input(INPUT_POST, 'update');
 
-            for($i=0; $i<$num_bd;$i++)
-            {
-                $base=mysqli_fetch_array($resultado);
-                for($j=0; $j<$num_col;$j++)
-                {
-                    echo "<tr><th>Nombre de la BD:  </th> <td>".$base[$j]."</td></tr>";
+        $privilegios = "";
+
+        echo '<div class="centrar">';
+        echo $id."<br/>";
+        echo $base."<br/>";
+
+        if(isset($all)) {
+            $privilegios = $all;
+        } else {
+            if(isset($alter)) {
+                if($bandera) {
+                    $privilegios = $privilegios.",";
                 }
-                echo "";
+                $privilegios = $privilegios."$alter";
+                $bandera = true;
             }
-            echo '</table></div>';
+            if(isset($create)) {
+                if($bandera) {
+                    $privilegios = $privilegios.",";
+                }
+                $privilegios = $privilegios."$create";
+                $bandera = true;
+            }
+            if(isset($drop)) {
+                if($bandera) {
+                    $privilegios = $privilegios.",";
+                }
+                $privilegios = $privilegios."$drop";
+                $bandera = true;
+            }
+            /*
+            else if(isset($grant)) {
+                if($bandera) {
+                    $privilegios = $privilegios.",";
+                }
+                $privilegios = $privilegios.$grant;
+                $bandera = true;
+            }
+            */
+            if(isset($index)) {
+                if($bandera) {
+                    $privilegios = $privilegios.",";
+                }
+                $privilegios = $privilegios."$index";
+                $bandera = true;
+            }
+            if(isset($insert)) {
+                if($bandera) {
+                    $privilegios = $privilegios.",";
+                }
+                $privilegios = $privilegios."$insert";
+                $bandera = true;
+            }
+            if(isset($select)) {
+                if($bandera) {
+                    $privilegios = $privilegios.",";
+                }
+                $privilegios = $privilegios."$select";
+                $bandera = true;
+            }
+            if(isset($update)) {
+                if($bandera) {
+                    $privilegios = $privilegios.",";
+                }
+                $privilegios = $privilegios."$update";
+                $bandera = true;
+            }
         }
-        mysqli_close($coneccion);
-    }
 
-    echo '<div class="centrar">';
-    echo '<form action="../index.html" method="post">';
-    echo '<input type="submit" formaction="../index.html" value="Regresar">';
-    echo '</form>';
-    echo '</div>';
-?>
-<!-- Termina PHP -->
+        echo $privilegios."<br/>";
+        $conexion;
+
+        if(!$conexion) {
+            echo "Error en la conexion: ".mysqli_connect_error();
+        } else {
+            $sql = 'revoke '."$privilegios".' on '."$base".".* from '"."$id"."'@'localhost'";
+            echo $sql."<br/>";
+            $resultado = mysqli_query($conexion, $sql);
+            
+            if(!$resultado) {
+                echo "Error en la operacion: ". mysqli_error($conexion)."<br/>";
+            } else {
+                echo "Operacion exitosa los privilegios fueron Revocados de manera correcta"."<br/>";
+            }
+            mysqli_close($conexion);
+        }
+
+        echo '</div>';
+        ?>
+
+        <div class="centrar">
+            <form action="../AdministradorUsuarios.html" method="post">
+            <input type="submit" formaction="../AdministradorUsuarios.html" value="Regresar">
+            </form>
+        </div>
+
+
+
 </body>
-
 </html>

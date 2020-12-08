@@ -524,7 +524,7 @@ img {
         $pass="";
         $servidor="localhost";
         $usuario="root";
-        $basedatos="mysql";
+        $basedatos="";
         $coneccion=mysqli_connect($servidor,$usuario,$pass,$basedatos);
         if(!$coneccion)
         {

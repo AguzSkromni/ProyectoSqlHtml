@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pantalla de Login</title>
+    <title>Grant</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,300&display=swap" rel="stylesheet">
     
     <style type="text/css">
@@ -496,90 +496,129 @@ img {
     font-size: 900;
     text-decoration: underline;
 }
+
 .centrar{
     padding-top: 2rem;
     padding-left: 5rem;
-}
-
-.centrar-tabla{
-    padding: 5rem 0rem 5rem 10rem;
 }
 
 .centrar p{
     font-size: 3rem;
 }
 
-table, td, th {
-    border: 1px solid black;
-    padding: 0.5rem;
+.contenedor-bodylogin {
+    padding-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input:not([type="submit"]),
+textarea,
+select{
+    padding: 1rem;
+    display: block;
+    width: 100%;
+    background-color: #e1e1e1;
+    margin-bottom: 2rem;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+label {
+    text-transform: uppercase;
+}
+
+fieldset {
+    padding: 2rem;
+}
+
+legend {
+    font-size: 3rem;
+}
+
+.privilegios {
+    max-width: 40rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
     </style>
 
 
-
 </head>
 
-<body>
+    <body>
     <header class="cover">
         <div class="contenedor contenido-header">
-
-        <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
-            <h1 class="h1class">Listado de Bases de Datos</h1>
-
+           <img src="logoUnitec.png" alt="logoUnitec" class="imagen-logo">
+            <h1 class="h1class">Otorgar Privilegios</h1>
         </div>
         <!-- Termina Contenedor contenido-header -->
     </header>
+        <?php
+        $pass = "";
+        $servidor = "localhost";
+        $usuario = "root";
+        //$port = "3308";
+        $conexion = mysqli_connect($servidor, $usuario, $pass, ""/*, $port */) ;
+        ?>
 
-    <!-- Inicia Codigo PHP -->
-    
-    <?php
+        <div class="contenedor-bodylogin "> 
+            <FIELdset>
+                <LEGEND> Otorgar</LEGEND>
+                        <?php if (!$conexion): ?>
+                            <?php echo "Error en la conexion: " . mysqli_connect_error(); ?>
+                        <?php else: ?>
+                            <?php $resultado = mysqli_query($conexion, 'SHOW DATABASES'); ?>
+                            <?php if (!$resultado): ?>
+                                <?php echo "No existe ninguna BD en el servidor <br/>"; ?>
+                            <?php else: ?>
+                        <?php
+                        $num_bd = mysqli_num_rows($resultado);
+                        $num_col = mysqli_num_fields($resultado);
+                        ?>
+                        <form action="mod_user2 (con GRANT).php" id="privilegios" method="post" title="User ID" size="10" maxlength="10">
+                            <label>User ID: </label>
+                            <input name="m_userid" type="text" required id="m_userid" form="privilegios" title="User ID" size="10" maxlength="10">
+                            <label>Base de Datos</label>
+                            <select name="s_bd" required id="s_bd" form="privilegios" title="Seleccion de BD">
+                                <?php for ($i = 0; $i < $num_bd; $i++): ?>
+                                    <?php $base = mysqli_fetch_array($resultado); ?>
+                                    <?php for ($j = 0; $j < $num_col; $j++): ?>
+                                        <?php echo "<option>" . $base[$j] . "</option>" ?>
+                                    <?php endfor; ?>
+                                <?php endfor; ?>
+                            </select>
+                            
+                            <label>Todos los privilegios: </label><input name="todos" type="checkbox" id="todos" title="Todos los privilegios" value="all privileges">
 
-    $pass="";
-    $servidor="localhost";
-    $usuario="root";
-    $basedatos="sakila";
-    $coneccion=mysqli_connect($servidor,$usuario,$pass,$basedatos);
+                            <label>Alter: </label> <input name="alter" type="checkbox" id="alter" title="Modificar BD" value="alter">
+                            <!-- <label>Grant: </label> <input name="grant" type="checkbox" id="grant" title="Modificar BD" value="grant option"> -->
+                            <label>Select: </label> <input name="select" type="checkbox" id="select" title="Modificar BD" value="select">
+                            <label>Insert: </label> <input name="insert" type="checkbox" id="insert" title="Modificar BD" value="insert">
+                            <label>Drop: </label> <input name="drop" type="checkbox" id="drop" title="Modificar BD" value="drop">
+                            <label>Update: </label> <input name="update" type="checkbox" id="update" title="Modificar BD" value="update">
+                            <label>Create: </label> <input name="create" type="checkbox" id="create" title="Modificar BD" value="create">
+                            <label>Index: </label> <input name="index" type="checkbox" id="index" title="Modificar BD" value="index">
+                            
+                            <div class="centrar">
+                            <input name="enviar" type="submit" id="enviar" value="enviar">
+                                </form>
+                            </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        
+                        <?php mysqli_close($conexion) ?>
+                </fieldset>
+        </div>
 
-    if(!$coneccion)
-    {
-        echo("Error en la coneccion: ".mysqli_connect_error());
-    }
-    else
-    {
-        $resultado=mysqli_query($coneccion,"Show Databases");
-        if(!$resultado)
-        {
-            echo "No existe ninguna Base de Datos en el servidor"."";
-        }
-        else
-        {
-            $num_bd=mysqli_num_rows($resultado);
-            $num_col=mysqli_num_fields($resultado);
-                echo '<div class="centrar-tabla">';
-                echo "<table><tr><th>En numero de BD en el servidor es: </th> <td>".$num_bd."</td></tr>";
-                echo "<tr><th>Numero de columnas del Query: </th> <td>".$num_col."</td></tr>";
+        <div class="centrar">
+            <form action="../AdministradorUsuarios.html" method="post">
+            <input type="submit" formaction="../AdministradorUsuarios.html" value="Regresar">
+            </form>
+        </div>
+    </div>
 
-            for($i=0; $i<$num_bd;$i++)
-            {
-                $base=mysqli_fetch_array($resultado);
-                for($j=0; $j<$num_col;$j++)
-                {
-                    echo "<tr><th>Nombre de la BD:  </th> <td>".$base[$j]."</td></tr>";
-                }
-                echo "";
-            }
-            echo '</table></div>';
-        }
-        mysqli_close($coneccion);
-    }
-
-    echo '<div class="centrar">';
-    echo '<form action="../index.html" method="post">';
-    echo '<input type="submit" formaction="../index.html" value="Regresar">';
-    echo '</form>';
-    echo '</div>';
-?>
-<!-- Termina PHP -->
-</body>
-
+    </body>
 </html>
