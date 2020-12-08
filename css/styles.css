@@ -135,6 +135,10 @@ img {
     justify-content: center;
 }
 
+.imagenUser {
+    max-height: 30rem;
+}
+
 .login label {
     font-size: 2rem;
     padding-bottom: rem;

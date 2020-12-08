@@ -539,11 +539,8 @@ img {
         { 
 
             $total = "select mysql.user.Host,mysql.user.User from mysql.user WHERE User='$usuarieliminar'";
-            if(!$total){
-                echo '<div class="centrar"><p>No Existe usuario para eliminar con el nombre: '; print $usuarieliminar; echo'</p></div>';
-            }
-            else
-            {
+            $resultado= $coneccion->query($total);
+            if($resultado->num_rows>=1){
 
                 //Eliminando usuario :)
                 $sql = "DROP USER '$usuarieliminar'@'localhost';";
@@ -553,6 +550,11 @@ img {
 
 
                 mysqli_close($coneccion);
+                
+            }
+            else
+            {
+                echo '<div class="centrar"><p>No Existe usuario para eliminar con el nombre: '; print $usuarieliminar; echo'</p></div>';
             }
         }
         

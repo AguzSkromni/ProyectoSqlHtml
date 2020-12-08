@@ -532,18 +532,18 @@ require 'login.php';
     //Checando la Coneccion
     if(!$coneccion)
     {
-        
         echo("Error en la coneccion:" .mysqli_connect_error());
     }
     else
     { 
-        $total = "select mysql.user.Host,mysql.user.User from mysql.user WHERE User='$usuarionuevo'";
-        if($total){
+        
+        $total ="select mysql.user.Host,mysql.user.User from mysql.user WHERE User='$usuarionuevo'";
+        $resultado= $coneccion->query($total);
+        if($resultado->num_rows>=1){
             echo '<div class="centrar"><p>Ya existe usuario creado con el nombre: '; print $usuarionuevo; echo'</p></div>';
         }
         else
         {
-
             //Creando usuario nuevo en localhost identificado con passnueva
             $sql = "CREATE USER '$usuarionuevo'@'localhost' IDENTIFIED BY '$passnueva';";
 
@@ -553,6 +553,8 @@ require 'login.php';
             mysqli_close($coneccion);
         }
     }
+
+
     
     echo '<div class="centrar">';
     echo '<form action="../loginadmin.html" method="post">';
